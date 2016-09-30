@@ -1,0 +1,139 @@
+html {
+	height:100%;
+}
+
+body {
+	width:100%;
+	height:100%;
+	background-image:url('/public/images/musicTable.jpg');
+	background-repeat: no-repeat; 
+	background-size:cover;
+	background-position:center;
+}
+
+.mask {
+	position:relative;
+	top:0;
+	height:100%;
+	width:100%;
+	background-color:rgba(255,255,255,.25);
+	z-index:5;
+	
+}
+
+#bodyContent {
+	position:absolute;
+	top:0;
+	z-index:99;
+	left:50%;
+	transform:translate(-50%,0);
+	height:100%;
+	
+}
+
+#bodyContent #introText {
+	position:absolute;
+	width:100%;
+	height:200px;
+	top:10%;
+	color:#81e8d0;
+	font-family:Lato;
+	text-align:center;
+	letter-spacing:10px;
+	text-shadow:2px 2px #318dd8;
+	
+}
+
+#introText .boxed {
+	background:linear-gradient(45deg,#0d7ba3,#63d5ff);
+	color:white;
+	width:350px;
+	margin:auto;
+}
+
+#introText h1 {
+	font-size:7em;
+}
+
+.row {
+	position:relative;
+	top:45%;
+
+}
+
+.row #leftBox {
+	border-right:1px solid white;
+	height:300px;
+}
+
+#leftBox h3 {
+	color:white;
+}
+
+#loginBox {
+	position:absolute;
+	height:200px;
+	width:450px;
+	left:10%;
+	background-color:rgba(255,255,255,.1);
+	border-radius:10px;
+}
+
+#loginForm, #registerForm {
+	position:relative;
+	margin:auto;
+	width:300px;
+	top:20px;
+}
+
+#bodyContent label {
+	color:white;
+	display:inline;
+}
+
+#bodyContent input {
+	width:200px;
+	border:0;
+	background-color:rgba(255,255,255,0);
+	border:1px solid white;
+	display:inline-block;
+	float:right;
+	color:white;
+	
+}
+
+#bodyContent hr {
+	
+}
+
+#loginBtn {
+	float:left;
+	margin-top:20px;
+}
+
+#registerBox {
+	position:relative;
+	height:200px;
+	width:450px;
+	margin:auto;
+	background-color:rgba(255,255,255,.1);
+	border-radius:10px;
+	margin-top:15px;
+}
+
+#rightBox h3 {
+	text-align:right;
+	color:white;
+}
+
+#registerBtn {
+	float:right;
+	margin-top:25px;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title>Welcome to MusicalSight</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="/public/stylesheets/register.css">
+		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+		
+	</head>
+	
+	<body>
+		<div class="mask"></div>
+		<div class="container" id="bodyContent">
+			<div id="introText">
+				<h1>MUSICAL <p class='boxed'>SIGHT</p></h1>
+			</div>
+			<div class="row">
+				<div class="col-md-6" id="leftBox">
+					<h3>Welcome back music lover.</h3>
+					<hr/>
+					<div id='loginBox'>
+						<form id='loginForm' method='POST' action='/login'>
+							<div class="form-group">
+								<label>Username</label>
+								<input type="text" class="form-control" name="username" placeholder="Username">
+							</div>
+							<br/>
+							<div class="form-group">
+								<label>Password</label>
+								<input type="password" class="form-control" name="password">
+							</div>
+							<button type='submit' class='btn btn-primary' id='loginBtn'>Login</button>
+				
+						</form>
+					</div>
+				</div>
+				
+				<div class="col-md-6" id="rightBox">
+					<div id='registerBox'>
+						<form id='registerForm' method='POST' action='/register'>
+							<div class="form-group">
+								<label>Username</label>
+								<input type="text" class="form-control" name="username" placeholder="Username">
+							</div>
+							<br/>
+							<div class="form-group">
+								<label>Password</label>
+								<input type="password" class="form-control" name="password">
+							</div>
+							<button type='submit' class='btn btn-primary' id='registerBtn'>Register</button>
+				
+						</form>
+					
+					</div>
+					<hr/>
+					<h3>Register now to start seeing.</h3>
+				</div>
+			</div>
+		
+		</div>
+		
+	
+	
+	</body>
+
+</html>
+
