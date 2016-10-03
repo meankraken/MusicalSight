@@ -41,7 +41,7 @@ body {
 	text-align:center;
 	letter-spacing:10px;
 	text-shadow:2px 2px #318dd8;
-	
+	cursor:pointer;
 }
 
 #introText .boxed {
@@ -131,6 +131,18 @@ body {
 	margin-top:25px;
 }
 
+.alert {
+	font-size:.8em;
+	margin-bottom:-50px;
+	
+}
+
+.loginFailed {
+	position:absolute;
+	float:bottom;
+	bottom:5px;
+	left:25%;
+}
 
 
 

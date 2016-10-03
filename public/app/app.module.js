@@ -10,15 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
+var forms_1 = require('@angular/forms');
+var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
+var app_routing_1 = require('./app.routing');
+var recent_component_1 = require('./recent.component');
+var add_image_component_1 = require('./add-image.component');
+var image_component_1 = require('./image.component');
+var image_service_1 = require('./image.service');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule],
-            declarations: [app_component_1.AppComponent],
-            bootstrap: [app_component_1.AppComponent]
+            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, app_routing_1.Routing],
+            declarations: [app_component_1.AppComponent, recent_component_1.RecentComponent, add_image_component_1.AddImageComponent, image_component_1.ImageView],
+            bootstrap: [app_component_1.AppComponent],
+            providers: [image_service_1.ImageService]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

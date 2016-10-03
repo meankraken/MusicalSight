@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrent \"node ./bin/www\" \"npm run tsc:w\"",
+    "start": "concurrent \"node app.js\" \"npm run tsc:w\"",
 	"lite": "lite-server",
     "postinstall": "typings install",
     "tsc": "tsc",

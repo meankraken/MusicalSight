@@ -1,0 +1,77 @@
+.grid-item {
+	position:relative;
+	display:inline-block;
+	background-color:#282828;
+	border-radius:5px;
+	float:left;
+	width:18.5%;
+	height:275px;
+	box-shadow:0px 0px 5px 1px black;
+	color:white;
+	margin-right:15px;
+	margin-bottom:12px;
+}
+
+.grid-item img {
+	border-top-right-radius:5px;
+	border-top-left-radius:5px;
+	width:100%;
+	height:75%;
+}
+
+.grid-item hr {
+	margin-top:0;
+	margin-bottom:0;
+	width:75%;
+	opacity:.5;
+}
+
+.grid-item h5 {
+	text-align:center;
+	font-family:Mako;
+	color:#45e8d5;
+	
+}
+
+.infoBox {
+	font-size:.8em;
+	color:white;
+	text-align:center;
+	font-family:Mako;
+}
+
+.infoBox .uploader {
+	position:absolute;
+	left:5px;
+	bottom:5px;
+}
+
+.infoBox .likes {
+	position:absolute;
+	right:5px;
+	bottom:5px;
+}
+
+.offset-left {
+	margin-left:15px;
+}
+
+.grid-item .likeBox {
+	position:absolute;
+	right:3px;
+	top:3px;
+	height:20px;
+	width:25px;
+	border-radius:12px;
+	text-align:center;
+	color:grey;
+	padding-top:3px;
+	cursor:pointer;
+	
+}
+
+
+
+
+
+

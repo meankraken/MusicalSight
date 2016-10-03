@@ -11,11 +11,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var AppComponent = (function () {
     function AppComponent() {
+        this.showUploadForm = false; //flag for displaying 
     }
+    AppComponent.prototype.showForm = function () {
+        $('#fullMask').css('display', 'block');
+        this.showUploadForm = true;
+    };
+    AppComponent.prototype.hideForm = function () {
+        $('#fullMask').css('display', 'none');
+        this.showUploadForm = false;
+    };
+    AppComponent.prototype.addImage = function (data) {
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            template: '<h1>My Second Angular 2 App</h1>'
+            template: " \n\t<add-image *ngIf='showUploadForm' (hideForm)='hideForm()' (addImage)='addImage($event)'></add-image>\n\t<div class='toolBar'>\n\t\t<h1 class='headerText'>Browse</h1>\n\t\t<div id='searchText'><h1 class='headerText'>Search</h1></div>\n\t\t<div id='shareText'><h1 class='headerText'>Share</h1></div>\n\t\t<div id='shareBtn' (click)='showForm()'>+</div>\n\t\t<input type='text' id='gallerySearch' placeholder='Search for user gallery'/>\n\t\t<nav id='links'>\n\t\t\t<a routerLink=\"/recent\" routerLinkActive=\"active\">RECENT</a>\n\t\t\t<a href='/'>TOP</a>\n\t\t\t<a href='/'>TEST</a>\n\t\t</nav>\n   \n\t</div>\n\t\n\t<router-outlet></router-outlet>\n\t",
+            styleUrls: ['public/stylesheets/app.css']
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
