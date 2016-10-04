@@ -10,8 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var image_js_1 = require('./image.js');
+var image_service_1 = require('./image.service');
 var ImageView = (function () {
-    function ImageView() {
+    function ImageView(imageService) {
+        this.imageService = imageService;
     }
     ImageView.prototype.getClasses = function () {
         if (((this.theIndex) % 10) == 5) {
@@ -21,21 +23,49 @@ var ImageView = (function () {
             return 'grid-item';
         }
     };
+    ImageView.prototype.likeBtnClasses = function () {
+        if (this.theImage.uploader == this.username || this.username == "!none") {
+            return 'hide';
+        }
+        else if (this.theImage.likes.includes(this.username)) {
+            return 'likeBox liked';
+        }
+        else {
+            return 'likeBox';
+        }
+    };
+    ImageView.prototype.likeImage = function () {
+        if (this.theImage.likes.includes(this.username)) {
+            this.imageService.unlikeImage(this.theImage);
+            var index = this.theImage.likes.indexOf(this.username);
+            this.theImage.likes.splice(index, 1);
+        }
+        else {
+            this.imageService.likeImage(this.theImage);
+            this.theImage.likes.push(this.username);
+        }
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', image_js_1.Image)
     ], ImageView.prototype, "theImage", void 0);
     __decorate([
+        //this image
         core_1.Input(), 
         __metadata('design:type', Number)
     ], ImageView.prototype, "theIndex", void 0);
+    __decorate([
+        //index of the image in recent list
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ImageView.prototype, "username", void 0);
     ImageView = __decorate([
         core_1.Component({
             selector: 'image-view',
-            template: "\n\t\t<div class={{getClasses()}}>\n\t\t\t<img src={{theImage.url}} />\n\t\t\t<h5>{{theImage.title}}</h5>\n\t\t\t<div class='infoBox'>\n\t\t\t\t<span class='uploader'>Uploader - {{theImage.uploader}} </span>\n\t\t\t\t<span class='likes'>Likes - {{theImage.likes}} </span>\n\t\t\t</div>\n\t\t\t<div class='likeBox'>\n\t\t\t\t<i class=\"fa fa-heart\"></i>\n\t\t\t</div>\n\t\t</div>\n\t\n\t",
+            template: "\n\t\t<div class={{getClasses()}}>\n\t\t\t<img src={{theImage.url}} />\n\t\t\t<h5>{{theImage.title}}</h5>\n\t\t\t<div class='infoBox'>\n\t\t\t\t<span class='uploader'>Uploader - {{theImage.uploader}} </span>\n\t\t\t\t<span class='likes'>Likes - {{theImage.likes.length}} </span>\n\t\t\t</div>\n\t\t\t<div class={{likeBtnClasses()}} (click)=\"likeImage()\" >\n\t\t\t\t<i class=\"fa fa-heart\"></i>\n\t\t\t</div>\n\t\t</div>\n\t\n\t",
             styleUrls: ['public/stylesheets/image-view.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [image_service_1.ImageService])
     ], ImageView);
     return ImageView;
 }());

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Image } from './image';
 
+import { RecentComponent } from './recent.component';
 
 @Component({
   selector: 'my-app',
@@ -20,19 +21,26 @@ import { Image } from './image';
    
 	</div>
 	
-	<router-outlet></router-outlet>
+	<router-outlet (activate)="getChild($event)"></router-outlet>
 	`,
    styleUrls: ['public/stylesheets/app.css']
 })
 
 
 export class AppComponent { 
+	childView
+	
+	getChild(childRef) { //once router-outlet activates, pull the reference to the child and set to childView 
+		this.childView = childRef; 
+		
+	}
+
 	showUploadForm = false; //flag for displaying 
 	
 	showForm(): void {
 		$('#fullMask').css('display','block');
 		this.showUploadForm = true;
-		
+		 
 	}
 	
 	hideForm(): void {
@@ -41,8 +49,8 @@ export class AppComponent {
 		
 	}
 	
-	addImage(data): void {
-		
+	addImage(data): void { //call addImage in child RecentComponent
+		this.childView.addImage(data);
 	}
 	
 }

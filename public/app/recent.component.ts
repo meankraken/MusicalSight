@@ -10,7 +10,7 @@ import { Image } from './image';
 		<div id='recentView'>
 			<h2>Recent List</h2>
 			<div class="grid">
-				<image-view *ngFor="let image of recentImages; let i = index" [theImage]="image" [theIndex]="i"></image-view>
+				<image-view *ngFor="let image of recentImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser"></image-view>
 			</div>
 		</div>
 	`,
@@ -19,15 +19,20 @@ import { Image } from './image';
 
 export class RecentComponent implements OnInit {
 	recentImages: Image[] = []; //array for holding recent images 
-	
+	currentUser: string; //username of current user 
+	componentType = "RecentComponent"; //for identifying this child component 
 	
 	constructor(private imageService: ImageService) { }
 	
-	ngOnInit(): void { //on init, pull the recent image list using ImageService 
+	ngOnInit(): void { //on init, pull the recent image list using ImageService and the username
 		this.imageService.getRecentImages().then(arr => { this.recentImages = arr.slice(); } );
-		
+		this.imageService.getCurrentUser().then(username => { this.currentUser = username.toString(); });
 	}
 	
+	addImage(toAdd:Image) { //add the uploaded image to the top of the list
+		this.recentImages.unshift(toAdd); 
+	}
+	 
 	ngAfterViewChecked() {
 		/*
 		$('.grid').masonry({

@@ -14,10 +14,15 @@ var RecentComponent = (function () {
     function RecentComponent(imageService) {
         this.imageService = imageService;
         this.recentImages = []; //array for holding recent images 
+        this.componentType = "RecentComponent"; //for identifying this child component 
     }
     RecentComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.imageService.getRecentImages().then(function (arr) { _this.recentImages = arr.slice(); });
+        this.imageService.getCurrentUser().then(function (username) { _this.currentUser = username.toString(); });
+    };
+    RecentComponent.prototype.addImage = function (toAdd) {
+        this.recentImages.unshift(toAdd);
     };
     RecentComponent.prototype.ngAfterViewChecked = function () {
         /*
@@ -33,7 +38,7 @@ var RecentComponent = (function () {
     RecentComponent = __decorate([
         core_1.Component({
             selector: 'recent-list',
-            template: "\n\t\t<div id='recentView'>\n\t\t\t<h2>Recent List</h2>\n\t\t\t<div class=\"grid\">\n\t\t\t\t<image-view *ngFor=\"let image of recentImages; let i = index\" [theImage]=\"image\" [theIndex]=\"i\"></image-view>\n\t\t\t</div>\n\t\t</div>\n\t",
+            template: "\n\t\t<div id='recentView'>\n\t\t\t<h2>Recent List</h2>\n\t\t\t<div class=\"grid\">\n\t\t\t\t<image-view *ngFor=\"let image of recentImages; let i = index\" [theImage]=\"image\" [theIndex]=\"i\" [username]=\"currentUser\"></image-view>\n\t\t\t</div>\n\t\t</div>\n\t",
             styleUrls: ['public/stylesheets/recent-list.css']
         }), 
         __metadata('design:paramtypes', [image_service_1.ImageService])

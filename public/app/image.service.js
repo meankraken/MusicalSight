@@ -16,11 +16,20 @@ var ImageService = (function () {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
+    ImageService.prototype.getCurrentUser = function () {
+        return this.http.get('/getUsername').toPromise().then(function (res) { return res.json().username; }).catch(this.handleError);
+    };
     ImageService.prototype.getRecentImages = function () {
         return this.http.get('/getRecent').toPromise().then(function (res) { return res.json().imageArr; }).catch(this.handleError);
     };
     ImageService.prototype.createImage = function (title, url) {
         return this.http.post('/addImage', JSON.stringify({ title: title, url: url }), { headers: this.headers }).toPromise().then(function (res) { return res.json(); }).catch(this.handleError);
+    };
+    ImageService.prototype.likeImage = function (theImage) {
+        return this.http.post('/likeImage', JSON.stringify(theImage), { headers: this.headers }).toPromise().then(function (res) { return res.json(); });
+    };
+    ImageService.prototype.unlikeImage = function (theImage) {
+        return this.http.post('/unlikeImage', JSON.stringify(theImage), { headers: this.headers }).toPromise().then(function (res) { return res.json(); });
     };
     ImageService.prototype.handleError = function (error) {
         return Promise.reject(error.message || error);

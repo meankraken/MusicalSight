@@ -5,7 +5,7 @@ var MusicImage = new Schema({
 	title: String,
 	url: String, 
 	uploader: String,
-	likes: Number
+	likes: [String]
 });
 
 module.exports = mongoose.model("MusicImage", MusicImage);

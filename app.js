@@ -81,6 +81,18 @@ app.post('/register', function(req,res) {
 	
 });
 
+app.get('/getUsername', function(req,res) { //handle request to get username 
+	if (req.user) {
+		var obj = { username: req.user.username };
+		res.end(JSON.stringify(obj));
+	}
+	else {
+		var obj = { username: '!none'};
+		res.end(JSON.stringify(obj));
+	}
+	
+});
+
 app.get('/getRecent', function(req,res) { //handle request to get recently uploaded image list 
 	Image.find({},{},{ sort:{ _id: -1 }, limit:20},function(err,images) {
 		if (err) {
@@ -102,7 +114,7 @@ app.post('/addImage', function(req,res) { //handle post request for uploading ne
 				console.log(err);
 			}
 			else {
-				var obj = {title: req.body.title, url: req.body.url, uploader:req.user.username, likes:0 };
+				var obj = {title: req.body.title, url: req.body.url, uploader:req.user.username, likes:[] };
 				user.images.push(obj);
 				user.save();
 				var newImage = new Image(obj);
@@ -127,7 +139,65 @@ app.post('/addImage', function(req,res) { //handle post request for uploading ne
 	
 });
 
+app.post('/likeImage', function(req,res) { //handle like image requests
+	if (req.user) {
+		Image.findOne({_id: req.body._id}, function(err,theImage) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				theImage.likes.push(req.user.username);
+				theImage.save();
+				
+				Account.findOne({username: req.user.username}, function(err, user) {
+					if (err) {
+						console.log(err);
+					}
+					else {
+						user.likedImages.push(theImage.toJSON()); 
+						user.save();
+						res.end(JSON.stringify({ data: 'success'}));
+					}
+				});
+			}
+		});
+		
+	}
+	
+});
 
+app.post('/unlikeImage', function(req,res) { //handle request to unlike image
+	if (req.user) {
+		Image.findOne({_id: req.body._id}, function(err,theImage) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				var index = theImage.likes.indexOf(req.user.username);
+				theImage.likes.splice(index,1);
+				theImage.save();
+				
+				Account.findOne({username: req.user.username}, function(err, user) {
+					if (err) {
+						console.log(err);
+					}
+					else {
+						var obj = theImage.toJSON();
+						for (var i=0; i<user.likedImages.length; i++) {
+							if (user.likedImages[i]._id == theImage._id) {
+								index = i;
+							} 
+						}
+						user.likedImages.splice(index,1);
+						user.save();
+						res.end(JSON.stringify({ data: 'success'}));
+					}
+				});
+			}
+		});
+		
+	}
+});
 
 
 
