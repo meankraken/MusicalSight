@@ -5,11 +5,18 @@
   "scripts": {
     "start": "concurrent \"node app.js\" \"npm run tsc:w\"",
 	"lite": "lite-server",
-    "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings"
   },
+  "keywords": [
+	"Node",
+	"Express",
+	"Angular 2",
+	"MongoDB",
+	"Mongoose",
+	"Passport"
+  ],
   "dependencies": {
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
