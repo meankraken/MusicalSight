@@ -18,6 +18,14 @@ export class ImageService {
 		return this.http.get('/getRecent').toPromise().then(res => res.json().imageArr as Image[]).catch(this.handleError);
 	}
 	
+	getTopImages(): Promise<Image[]> { //pull the most liked images
+		return this.http.get('/getTop').toPromise().then(res => res.json().imageArr as Image[]).catch(this.handleError); 
+	}
+	
+	getOwnImages(): Promise<Image[]> {
+		return this.http.get('/getOwn').toPromise().then(res => res.json().imageArr as Image[]).catch(this.handleError); 
+	}
+	
 	createImage(title: string, url: string): Promise<Image> { //upload new image 
 		return this.http.post('/addImage', JSON.stringify({title: title, url: url}), {headers: this.headers}).toPromise().then(res => res.json()).catch(this.handleError);
 	}

@@ -11,7 +11,7 @@ import { ImageService } from './image.service';
 			<h5>{{theImage.title}}</h5>
 			<div class='infoBox'>
 				<span class='uploader'>Uploader - {{theImage.uploader}} </span>
-				<span class='likes'>Likes - {{theImage.likes.length}} </span>
+				<span class='likes'>Favorites - {{theImage.likes.length}} </span>
 			</div>
 			<div class={{likeBtnClasses()}} (click)="likeImage()" >
 				<i class="fa fa-heart"></i>

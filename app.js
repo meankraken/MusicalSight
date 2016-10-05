@@ -45,8 +45,16 @@ app.get('/', function(req,res) {
 	res.sendFile(__dirname + '/views/main.html');
 });
 
-app.get('/recent', function(req,res) {
+app.get('/recent', function(req,res) { //for the recent images route
 	res.sendFile(__dirname + '/views/main.html');
+});
+
+app.get('/top', function(req,res) { //for the top images route
+	res.sendFile(__dirname + '/views/main.html');
+});
+
+app.get('/own', function(req,res) {
+	res.sendFile(__dirname + '/views/main.html'); //for the own images route 
 });
 
 app.get('/login', function(req,res) {
@@ -104,6 +112,39 @@ app.get('/getRecent', function(req,res) { //handle request to get recently uploa
 		
 		
 	});
+	
+});
+
+app.get('/getTop', function(req,res) { //handle request to get most liked images
+	Image.find({},{},{ sort:{ likes: -1 }, limit:20},function(err,images) {
+		if (err) {
+			console.log(err);
+		}
+		else {
+			res.end(JSON.stringify({ imageArr: images }));
+		}
+		
+		
+	});
+	
+});
+
+app.get('/getOwn', function(req,res) { //handle request to get user's personal gallery
+	if (req.user) {
+		Image.find({uploader:req.user.username},{},{ sort:{ _id: 1 }, limit:20},function(err,images) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				res.end(JSON.stringify({ imageArr: images }));
+			}
+			
+			
+		});
+	}
+	else {
+		res.end(JSON.stringify({ imageArr: [] }));
+	}
 	
 });
 

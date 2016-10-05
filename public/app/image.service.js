@@ -22,6 +22,12 @@ var ImageService = (function () {
     ImageService.prototype.getRecentImages = function () {
         return this.http.get('/getRecent').toPromise().then(function (res) { return res.json().imageArr; }).catch(this.handleError);
     };
+    ImageService.prototype.getTopImages = function () {
+        return this.http.get('/getTop').toPromise().then(function (res) { return res.json().imageArr; }).catch(this.handleError);
+    };
+    ImageService.prototype.getOwnImages = function () {
+        return this.http.get('/getOwn').toPromise().then(function (res) { return res.json().imageArr; }).catch(this.handleError);
+    };
     ImageService.prototype.createImage = function (title, url) {
         return this.http.post('/addImage', JSON.stringify({ title: title, url: url }), { headers: this.headers }).toPromise().then(function (res) { return res.json(); }).catch(this.handleError);
     };

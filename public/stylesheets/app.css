@@ -19,6 +19,7 @@
 
 .toolBar .headerText {
 	font-family:Abel;
+	color:#ace5db;
 }
 
 
@@ -85,7 +86,7 @@
 	font-weight:700;
 }
 
-a:hover {
+a:hover, a:active, a:visited, a:link {
 	text-decoration:none;
 }
 

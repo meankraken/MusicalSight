@@ -10,39 +10,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var image_service_1 = require('./image.service');
-var RecentComponent = (function () {
-    function RecentComponent(imageService) {
+var OwnComponent = (function () {
+    function OwnComponent(imageService) {
         this.imageService = imageService;
-        this.recentImages = []; //array for holding recent images 
+        this.ownImages = [];
     }
-    RecentComponent.prototype.ngOnInit = function () {
+    OwnComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.imageService.getRecentImages().then(function (arr) { _this.recentImages = arr.slice(); });
+        this.imageService.getOwnImages().then(function (data) { return _this.ownImages = data.slice(); });
         this.imageService.getCurrentUser().then(function (username) { _this.currentUser = username.toString(); });
     };
-    RecentComponent.prototype.addImage = function (toAdd) {
-        this.recentImages.unshift(toAdd);
+    OwnComponent.prototype.addImage = function (toAdd) {
+        if (this.ownImages.length < 20) {
+            this.ownImages.unshift(toAdd);
+        }
     };
-    RecentComponent.prototype.ngAfterViewChecked = function () {
-        /*
-        $('.grid').masonry({
-          // options
-          itemSelector: '.grid-item',
-          columnWidth: 50,
-          //percentPosition: true,
-          gutter:10
-        });
-        */
+    OwnComponent.prototype.isLogged = function () {
+        console.log(this.currentUser);
+        if (this.currentUser == '!none') {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
-    RecentComponent = __decorate([
+    OwnComponent = __decorate([
         core_1.Component({
-            selector: 'recent-list',
-            template: "\n\t\t<div id='theView'>\n\t\t\t<h2>Recent Additions</h2>\n\t\t\t<div class=\"grid\">\n\t\t\t\t<image-view *ngFor=\"let image of recentImages; let i = index\" [theImage]=\"image\" [theIndex]=\"i\" [username]=\"currentUser\"></image-view>\n\t\t\t</div>\n\t\t</div>\n\t",
+            selector: 'own-list',
+            template: "\n\t\t<div id='theView'>\n\t\t\t<h2>Personal Gallery</h2>\n\t\t\t<h4 *ngIf=\"isLogged()\">Login to view your gallery!</h4>\n\t\t\t<div class=\"grid\">\n\t\t\t\t<image-view *ngFor=\"let image of ownImages; let i = index\" [theImage]=\"image\" [theIndex]=\"i\" [username]=\"currentUser\"></image-view>\n\t\t\t</div>\n\t\t</div>\n\t\n\t",
             styleUrls: ['public/stylesheets/list.css']
         }), 
         __metadata('design:paramtypes', [image_service_1.ImageService])
-    ], RecentComponent);
-    return RecentComponent;
+    ], OwnComponent);
+    return OwnComponent;
 }());
-exports.RecentComponent = RecentComponent;
-//# sourceMappingURL=recent.component.js.map
+exports.OwnComponent = OwnComponent;
+//# sourceMappingURL=own.component.js.map

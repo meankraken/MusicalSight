@@ -10,39 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var image_service_1 = require('./image.service');
-var RecentComponent = (function () {
-    function RecentComponent(imageService) {
+var TopComponent = (function () {
+    function TopComponent(imageService) {
         this.imageService = imageService;
-        this.recentImages = []; //array for holding recent images 
+        this.topImages = [];
     }
-    RecentComponent.prototype.ngOnInit = function () {
+    TopComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.imageService.getRecentImages().then(function (arr) { _this.recentImages = arr.slice(); });
+        this.imageService.getTopImages().then(function (data) { return _this.topImages = data.slice(); });
         this.imageService.getCurrentUser().then(function (username) { _this.currentUser = username.toString(); });
     };
-    RecentComponent.prototype.addImage = function (toAdd) {
-        this.recentImages.unshift(toAdd);
+    TopComponent.prototype.addImage = function (toAdd) {
+        if (this.topImages.length < 20) {
+            this.topImages.push(toAdd);
+        }
     };
-    RecentComponent.prototype.ngAfterViewChecked = function () {
-        /*
-        $('.grid').masonry({
-          // options
-          itemSelector: '.grid-item',
-          columnWidth: 50,
-          //percentPosition: true,
-          gutter:10
-        });
-        */
-    };
-    RecentComponent = __decorate([
+    TopComponent = __decorate([
         core_1.Component({
-            selector: 'recent-list',
-            template: "\n\t\t<div id='theView'>\n\t\t\t<h2>Recent Additions</h2>\n\t\t\t<div class=\"grid\">\n\t\t\t\t<image-view *ngFor=\"let image of recentImages; let i = index\" [theImage]=\"image\" [theIndex]=\"i\" [username]=\"currentUser\"></image-view>\n\t\t\t</div>\n\t\t</div>\n\t",
+            selector: 'top-list',
+            template: "\n\t\t<div id='theView'>\n\t\t\t<h2>Top Favorites</h2>\n\t\t\t<div class=\"grid\">\n\t\t\t\t<image-view *ngFor=\"let image of topImages; let i = index\" [theImage]=\"image\" [theIndex]=\"i\" [username]=\"currentUser\"></image-view>\n\t\t\t</div>\n\t\t</div>\n\t\n\t",
             styleUrls: ['public/stylesheets/list.css']
         }), 
         __metadata('design:paramtypes', [image_service_1.ImageService])
-    ], RecentComponent);
-    return RecentComponent;
+    ], TopComponent);
+    return TopComponent;
 }());
-exports.RecentComponent = RecentComponent;
-//# sourceMappingURL=recent.component.js.map
+exports.TopComponent = TopComponent;
+//# sourceMappingURL=top.component.js.map

@@ -3,24 +3,22 @@ import { Component, OnInit } from '@angular/core';
 import { ImageService } from './image.service';
 import { Image } from './image';
 
-
 @Component({
 	selector:'recent-list',
 	template:`
-		<div id='recentView'>
-			<h2>Recent List</h2>
+		<div id='theView'>
+			<h2>Recent Additions</h2>
 			<div class="grid">
 				<image-view *ngFor="let image of recentImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser"></image-view>
 			</div>
 		</div>
 	`,
-	styleUrls:['public/stylesheets/recent-list.css']
+	styleUrls:['public/stylesheets/list.css']
 })
 
 export class RecentComponent implements OnInit {
 	recentImages: Image[] = []; //array for holding recent images 
-	currentUser: string; //username of current user 
-	componentType = "RecentComponent"; //for identifying this child component 
+	currentUser: string; //username of current user  
 	
 	constructor(private imageService: ImageService) { }
 	

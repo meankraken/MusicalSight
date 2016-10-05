@@ -15,8 +15,8 @@ import { RecentComponent } from './recent.component';
 		<input type='text' id='gallerySearch' placeholder='Search for user gallery'/>
 		<nav id='links'>
 			<a routerLink="/recent" routerLinkActive="active">RECENT</a>
-			<a href='/'>TOP</a>
-			<a href='/'>TEST</a>
+			<a routerLink="/top" routerLinkActive="active">TOP</a>
+			<a routerLink="/own" routerLinkActive="active">OWN</a>
 		</nav>
    
 	</div>
