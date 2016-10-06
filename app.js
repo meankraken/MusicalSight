@@ -39,8 +39,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy('local', Account.authenticate()));
 passport.use(new TwitterStrategy({
-    consumerKey: process.env.TWTR_KEY;
-    consumerSecret: process.env.TWTR_SECRET;
+    consumerKey: process.env.TWTR_KEY,
+    consumerSecret: process.env.TWTR_SECRET,
     callbackURL: "https://musicalsight.herokuapp.com/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
