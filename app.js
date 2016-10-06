@@ -278,7 +278,7 @@ app.post('/unlikeImage', function(req,res) { //handle request to unlike image
 });
 
 app.post('/getUserList', function(req,res) { //pull users that match the search string
-	var re = new RegExp(req.body.data,"i"); //create regexp with the username/partial username
+	var re = new RegExp('^' + req.body.data,"i"); //create regexp with the username/partial username
 	Account.find({username:re}, function(err,users) {
 		if (err) {
 			console.log(err);
