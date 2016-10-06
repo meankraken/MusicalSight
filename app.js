@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
 var app = express();
 var Account = require('./models/account.js');
@@ -37,6 +38,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy('local', Account.authenticate()));
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.TWTR_KEY || 'pg8SEyoGan8YKtCfJjEUJVhpC', //pg8SEyoGan8YKtCfJjEUJVhpC
+    consumerSecret: process.env.TWTR_SECRET || 'BoweuSRuw0XHCF8GvUNfYuCrK9APTwLffXAo3P1R6OCodrKnlQ', //BoweuSRuw0XHCF8GvUNfYuCrK9APTwLffXAo3P1R6OCodrKnlQ
+    callbackURL: "https://musicalsight.herokuapp.com/auth/twitter/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+      return done(null, profile);
+    
+  }
+));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
@@ -57,9 +68,17 @@ app.get('/own', function(req,res) {
 	res.sendFile(__dirname + '/views/main.html'); //for the own images route 
 });
 
-app.get('/login', function(req,res) {
+app.get('/user/:id', function(req,res) {
+	res.sendFile(__dirname + '/views/main.html'); //for the searched user gallery route 
+}); 
+
+app.get('/login', function(req,res) { 
 	res.sendFile(__dirname + '/views/register.html');
 });
+
+app.get('/auth/twitter', passport.authenticate('twitter')); //for handling login via Twitter
+
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' })); //Twitter callback url
 
 app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/register?failed=true' }));
 
@@ -145,6 +164,20 @@ app.get('/getOwn', function(req,res) { //handle request to get user's personal g
 	else {
 		res.end(JSON.stringify({ imageArr: [] }));
 	}
+	
+});
+
+app.get('/getUser/:id', function(req,res) {
+	Image.find({uploader:req.params.id},{},{ sort:{ _id: -1 }, limit:20},function(err,images) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				res.end(JSON.stringify({ imageArr: images }));
+			}
+			
+			
+	});
 	
 });
 
@@ -240,6 +273,22 @@ app.post('/unlikeImage', function(req,res) { //handle request to unlike image
 	}
 });
 
+app.post('/getUserList', function(req,res) { //pull users that match the search string
+	var re = new RegExp(req.body.data,"i"); //create regexp with the username/partial username
+	Account.find({username:re}, function(err,users) {
+		if (err) {
+			console.log(err);
+		}
+		else {
+			var arr = [];
+			for (var i=0; i<users.length; i++) {
+				arr.push(users[i].username);
+			}
+			res.end(JSON.stringify({"users": arr}));
+		}
+	});
+	
+});
 
 
 app.listen(port, function(err) {

@@ -5,7 +5,7 @@
 	width:100%;
 	float:left;
 	margin-bottom:10px;
-	
+	z-index:200;
 }
 
 .toolBar h1 {
@@ -61,6 +61,29 @@
 
 .toolBar #shareBtn:hover {
 	box-shadow:0px 0px 5px 1px white;
+}
+
+.userList {
+	position:absolute;
+	top:105px;
+	right:18px;
+	box-shadow:0px 0px 5px 1px black;
+
+}
+
+.userBox {
+	height:30px;
+	width:190px;
+	background-color:#3d3d3d;
+	border-bottom:1px solid grey;
+	line-height:30px;
+	color:white;
+	text-align:center;
+	z-index:250;
+}
+
+.userBox:nth-last-child(1) {
+	border:0 !important;
 }
 
 .toolBar #links {

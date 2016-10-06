@@ -26,7 +26,6 @@ var OwnComponent = (function () {
         }
     };
     OwnComponent.prototype.isLogged = function () {
-        console.log(this.currentUser);
         if (this.currentUser == '!none') {
             return true;
         }

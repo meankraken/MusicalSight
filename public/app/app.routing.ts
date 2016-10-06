@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RecentComponent } from './recent.component';
 import { TopComponent } from './top.component';
 import { OwnComponent } from './own.component';
+import { GalleryComponent } from './gallery.component';
 
 const appRoutes: Routes = [
   
@@ -26,6 +27,10 @@ const appRoutes: Routes = [
 	  redirectTo:'/recent',
 	  pathMatch: 'full'
 	  
+  },
+  {
+	  path:'user/:name',
+	  component: GalleryComponent
   }
 
 ];

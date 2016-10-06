@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
 require('rxjs/add/operator/toPromise');
 var ImageService = (function () {
     function ImageService(http) {
@@ -28,14 +29,20 @@ var ImageService = (function () {
     ImageService.prototype.getOwnImages = function () {
         return this.http.get('/getOwn').toPromise().then(function (res) { return res.json().imageArr; }).catch(this.handleError);
     };
+    ImageService.prototype.getUserImages = function (user) {
+        return this.http.get('/getUser/' + user).toPromise().then(function (res) { return res.json().imageArr; }).catch(this.handleError);
+    };
     ImageService.prototype.createImage = function (title, url) {
         return this.http.post('/addImage', JSON.stringify({ title: title, url: url }), { headers: this.headers }).toPromise().then(function (res) { return res.json(); }).catch(this.handleError);
     };
     ImageService.prototype.likeImage = function (theImage) {
-        return this.http.post('/likeImage', JSON.stringify(theImage), { headers: this.headers }).toPromise().then(function (res) { return res.json(); });
+        return this.http.post('/likeImage', JSON.stringify(theImage), { headers: this.headers }).toPromise().then(function (res) { return res.json(); }).catch(this.handleError);
     };
     ImageService.prototype.unlikeImage = function (theImage) {
-        return this.http.post('/unlikeImage', JSON.stringify(theImage), { headers: this.headers }).toPromise().then(function (res) { return res.json(); });
+        return this.http.post('/unlikeImage', JSON.stringify(theImage), { headers: this.headers }).toPromise().then(function (res) { return res.json(); }).catch(this.handleError);
+    };
+    ImageService.prototype.getUserList = function (userString) {
+        return this.http.post('/getUserList', JSON.stringify({ data: userString }), { headers: this.headers }).map(function (res) { return res.json().users; });
     };
     ImageService.prototype.handleError = function (error) {
         return Promise.reject(error.message || error);

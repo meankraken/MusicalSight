@@ -111,6 +111,24 @@ body {
 	margin-top:20px;
 }
 
+.twitterBtn {
+	display:block;
+	position:relative;
+	height:33px;
+	width:125px;
+	margin-top:20px;
+	margin-left:5px;
+	background-color:#67bfef;
+	border-radius:3px;
+	float:left;
+	text-align:center;
+	line-height:33px;
+	color:white;
+	font-family:Arial;
+	cursor:pointer;
+	
+}
+
 #registerBox {
 	position:relative;
 	height:200px;

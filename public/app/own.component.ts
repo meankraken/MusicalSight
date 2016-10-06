@@ -38,7 +38,6 @@ export class OwnComponent implements OnInit {
 	}
 	
 	isLogged() {
-		console.log(this.currentUser);
 		if (this.currentUser=='!none') {
 			return true;
 		}
