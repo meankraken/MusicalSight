@@ -6,9 +6,10 @@
 	top:50%;
 	left:50%;
 	transform:translate(-50%,-50%);
-	z-index:99;
+	z-index:300;
 	padding:15px;
 	box-shadow:0px 0px 7px 2px black;
+	
 }
 
 .popUp h3 {
