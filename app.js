@@ -76,11 +76,11 @@ app.get('/login', function(req,res) {
 	res.sendFile(__dirname + '/views/register.html');
 });
 
-app.get('/auth/twitter', passport.authenticate('twitter')); //for handling login via Twitter
+app.get('/auth/twitter', passport.authenticate('twitter', {session:false})); //for handling login via Twitter
 
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' })); //Twitter callback url
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { session:false, successRedirect: '/', failureRedirect: '/login' })); //Twitter callback url
 
-app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/register?failed=true' }));
+app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/register?failed=true' }));
 
 app.get('/register', function(req,res) {
 	res.sendFile(__dirname + '/views/register.html');
