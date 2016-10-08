@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"node app.js\" \"tsc -w\"",
+    "start": "node app.js",
     "lite": "lite-server",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
