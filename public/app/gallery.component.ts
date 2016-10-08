@@ -11,7 +11,7 @@ import { ImageService } from './image.service';
 		<div id='theView'>
 			<h2>{{searchedUser}}'s Gallery</h2>
 			<div class="grid">
-				<image-view *ngFor="let image of userImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser"></image-view>
+				<image-view *ngFor="let image of userImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser" (deleteImage)="deleteImage($event)"></image-view>
 			</div>
 		</div>
 	`,
@@ -35,5 +35,15 @@ export class GalleryComponent implements OnInit{
 				this.userImages = data.slice();
 			});
 		});
+	}
+	
+	deleteImage(toDelete:Image) {
+		var index = -1;
+		for (var i=0; i<this.userImages.length; i++) {
+			if (toDelete._id == this.userImages[i]._id) {
+				index = i;
+			}
+		}
+		this.userImages.splice(index,1);
 	}
 }

@@ -27,6 +27,7 @@ var AddImageComponent = (function () {
                     alert('You must be logged in.');
                 }
                 else {
+                    console.log(data);
                     _this.addImage.emit(data);
                     _this.hideForm.next();
                 }

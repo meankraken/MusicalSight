@@ -59,7 +59,7 @@ export class ImageView {
 		 if (this.theImage.likes.includes(this.username)) {
 			 this.imageService.unlikeImage(this.theImage);
 			 var index = this.theImage.likes.indexOf(this.username);
-			 this.theImage.likes.splice(index,1);
+			 this.theImage.likes.splice(index,1); 
 		 }
 		 else {
 			 this.imageService.likeImage(this.theImage);

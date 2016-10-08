@@ -39,8 +39,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy('local', Account.authenticate()));
 passport.use(new TwitterStrategy({
-    consumerKey: process.env.TWTR_KEY,
-    consumerSecret: process.env.TWTR_SECRET,
+    consumerKey: process.env.TWTR_KEY || 'pg8SEyoGan8YKtCfJjEUJVhpC',
+    consumerSecret: process.env.TWTR_SECRET || 'BoweuSRuw0XHCF8GvUNfYuCrK9APTwLffXAo3P1R6OCodrKnlQ',
     callbackURL: "https://musicalsight.herokuapp.com/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
@@ -201,6 +201,7 @@ app.post('/addImage', function(req,res) { //handle post request for uploading ne
 					else {
 						user.images.push(doc);
 						user.save();
+						obj = doc.toJSON();
 						res.end(JSON.stringify(obj));
 					}
 				});
@@ -301,8 +302,6 @@ app.post('/deleteImage', function(req,res) { //delete an image
 			}
 			
 			Account.findOne({username: theImage.uploader}, function(err,user) { //find the original uploader
-						console.log(user.images);
-						console.log(theImage);
 						for (var i=0; i<user.images.length; i++) {
 											if (user.images[i]._id == theImage._id) {
 												index = i;

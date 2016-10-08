@@ -9,7 +9,7 @@ import { ImageService } from './image.service';
 		<div id='theView'>
 			<h2>Top Favorites</h2>
 			<div class="grid">
-				<image-view *ngFor="let image of topImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser"></image-view>
+				<image-view *ngFor="let image of topImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser" (deleteImage)="deleteImage($event)"></image-view>
 			</div>
 		</div>
 	
@@ -33,6 +33,16 @@ export class TopComponent implements OnInit {
 		if (this.topImages.length<20) {
 			this.topImages.push(toAdd);
 		}
+	}
+	
+	deleteImage(toDelete:Image) {
+		var index = -1;
+		for (var i=0; i<this.topImages.length; i++) {
+			if (toDelete._id == this.topImages[i]._id) {
+				index = i;
+			}
+		}
+		this.topImages.splice(index,1);
 	}
 	
 }

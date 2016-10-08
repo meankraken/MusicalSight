@@ -9,7 +9,7 @@ import { Image } from './image';
 		<div id='theView'>
 			<h2>Recent Additions</h2>
 			<div class="grid">
-				<image-view *ngFor="let image of recentImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser"></image-view>
+				<image-view *ngFor="let image of recentImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser" (deleteImage)="deleteImage($event)"></image-view>
 			</div>
 		</div>
 	`,
@@ -41,6 +41,16 @@ export class RecentComponent implements OnInit {
 		  gutter:10
 		});
 		*/
+	}
+	
+	deleteImage(toDelete:Image) {
+		var index = -1;
+		for (var i=0; i<this.recentImages.length; i++) {
+			if (toDelete._id == this.recentImages[i]._id) {
+				index = i;
+			}
+		}
+		this.recentImages.splice(index,1);
 	}
 	 
 	

@@ -25,10 +25,19 @@ var TopComponent = (function () {
             this.topImages.push(toAdd);
         }
     };
+    TopComponent.prototype.deleteImage = function (toDelete) {
+        var index = -1;
+        for (var i = 0; i < this.topImages.length; i++) {
+            if (toDelete._id == this.topImages[i]._id) {
+                index = i;
+            }
+        }
+        this.topImages.splice(index, 1);
+    };
     TopComponent = __decorate([
         core_1.Component({
             selector: 'top-list',
-            template: "\n\t\t<div id='theView'>\n\t\t\t<h2>Top Favorites</h2>\n\t\t\t<div class=\"grid\">\n\t\t\t\t<image-view *ngFor=\"let image of topImages; let i = index\" [theImage]=\"image\" [theIndex]=\"i\" [username]=\"currentUser\"></image-view>\n\t\t\t</div>\n\t\t</div>\n\t\n\t",
+            template: "\n\t\t<div id='theView'>\n\t\t\t<h2>Top Favorites</h2>\n\t\t\t<div class=\"grid\">\n\t\t\t\t<image-view *ngFor=\"let image of topImages; let i = index\" [theImage]=\"image\" [theIndex]=\"i\" [username]=\"currentUser\" (deleteImage)=\"deleteImage($event)\"></image-view>\n\t\t\t</div>\n\t\t</div>\n\t\n\t",
             styleUrls: ['public/stylesheets/list.css']
         }), 
         __metadata('design:paramtypes', [image_service_1.ImageService])

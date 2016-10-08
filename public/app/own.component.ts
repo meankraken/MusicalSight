@@ -10,7 +10,7 @@ import { ImageService } from './image.service';
 			<h2>Personal Gallery</h2>
 			<h4 *ngIf="isLogged()">Login to view your gallery!</h4>
 			<div class="grid">
-				<image-view *ngFor="let image of ownImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser"></image-view>
+				<image-view *ngFor="let image of ownImages; let i = index" [theImage]="image" [theIndex]="i" [username]="currentUser" (deleteImage)="deleteImage($event)"></image-view>
 			</div>
 		</div>
 	
@@ -44,6 +44,16 @@ export class OwnComponent implements OnInit {
 		else {
 			return false;
 		}
+	}
+	
+	deleteImage(toDelete:Image) {
+		var index = -1;
+		for (var i=0; i<this.ownImages.length; i++) {
+			if (toDelete._id == this.ownImages[i]._id) {
+				index = i;
+			}
+		}
+		this.ownImages.splice(index,1);
 	}
 	
 }
