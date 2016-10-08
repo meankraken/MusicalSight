@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Image } from './image.js';
 
 import { ImageService } from './image.service';
@@ -16,6 +16,9 @@ import { ImageService } from './image.service';
 			<div class={{likeBtnClasses()}} (click)="likeImage()" >
 				<i class="fa fa-heart"></i>
 			</div>
+			<div *ngIf="personalImage()" class='topBtn' (click)="deleteClicked()" >
+				X
+			</div>
 		</div>
 	
 	`,
@@ -27,6 +30,7 @@ export class ImageView {
 	@Input() theImage: Image; //this image
 	@Input() theIndex: number; //index of the image in recent list
 	@Input() username: string; //current user's username
+	@Output() deleteImage = new EventEmitter; //emitter for deleting image 
 	
 	constructor(private imageService: ImageService) {  }
 	
@@ -44,14 +48,14 @@ export class ImageView {
 			return 'hide';
 		}
 		else if (this.theImage.likes.includes(this.username)) {
-			return 'likeBox liked';
+			return 'topBtn liked';
 		}
 		else {
-			return 'likeBox';
-		}
+			return 'topBtn';
+		} 
 	}
 	
-	likeImage() { //toggle like 
+	likeImage(): void { //toggle like 
 		 if (this.theImage.likes.includes(this.username)) {
 			 this.imageService.unlikeImage(this.theImage);
 			 var index = this.theImage.likes.indexOf(this.username);
@@ -62,5 +66,21 @@ export class ImageView {
 			 this.theImage.likes.push(this.username);
 		 }
 	}
+	
+	personalImage() { //return true if this is the user's own image
+		if (this.username==this.theImage.uploader) {
+			return true; 
+		} 
+		else {
+			return false;
+		}
+	}
+	
+	deleteClicked(): void { //delete the image 
+		this.imageService.removeImage(this.theImage);
+		this.deleteImage.next(this.theImage);
+	}
+	
+	
 	
 }

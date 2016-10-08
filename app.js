@@ -193,14 +193,14 @@ app.post('/addImage', function(req,res) { //handle post request for uploading ne
 			}
 			else {
 				var obj = {title: req.body.title, url: req.body.url, uploader:req.user.username, likes:[] };
-				user.images.push(obj);
-				user.save();
 				var newImage = new Image(obj);
 				newImage.save(function(err, doc) {
 					if (err) {
 						console.log(err);
 					}
 					else {
+						user.images.push(doc);
+						user.save();
 						res.end(JSON.stringify(obj));
 					}
 				});
@@ -273,6 +273,50 @@ app.post('/unlikeImage', function(req,res) { //handle request to unlike image
 				});
 			}
 		});
+		
+	}
+});
+
+app.post('/deleteImage', function(req,res) { //delete an image 
+	if (!req.user) {
+		res.redirect('/');
+	}
+	else {
+		var theImage = req.body; 
+		var index = -1;
+		Image.remove({_id: theImage._id}, function(err) { //remove the image from image collection
+			if (err) { console.log(err); }
+		});
+		
+		Account.find({username: {$in: theImage.likes}}, function(err,users) { //find all the users that liked the image
+			for (var k=0; k<users.length; k++) { //iterate through users
+						for (var i=0; i<users[k].likedImages.length; i++) {
+							if (users[k].likedImages[i]._id == theImage._id) {
+								index = i;
+							} 
+						}
+						users[k].likedImages.splice(index,1);
+						users[k].save(); //remove the image from their like arrays 
+						
+			}
+			
+			Account.findOne({username: theImage.uploader}, function(err,user) { //find the original uploader
+						console.log(user.images);
+						console.log(theImage);
+						for (var i=0; i<user.images.length; i++) {
+											if (user.images[i]._id == theImage._id) {
+												index = i;
+												console.log(i);
+											} 
+										}
+										
+										user.images.splice(index,1);
+										user.save(); //remove the image from uploader's image list 
+										
+										res.end(JSON.stringify(theImage));
+						});
+			});
+		
 		
 	}
 });

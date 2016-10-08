@@ -14,6 +14,7 @@ var image_service_1 = require('./image.service');
 var ImageView = (function () {
     function ImageView(imageService) {
         this.imageService = imageService;
+        this.deleteImage = new core_1.EventEmitter; //emitter for deleting image 
     }
     ImageView.prototype.getClasses = function () {
         if (((this.theIndex) % 10) == 5) {
@@ -28,10 +29,10 @@ var ImageView = (function () {
             return 'hide';
         }
         else if (this.theImage.likes.includes(this.username)) {
-            return 'likeBox liked';
+            return 'topBtn liked';
         }
         else {
-            return 'likeBox';
+            return 'topBtn';
         }
     };
     ImageView.prototype.likeImage = function () {
@@ -44,6 +45,18 @@ var ImageView = (function () {
             this.imageService.likeImage(this.theImage);
             this.theImage.likes.push(this.username);
         }
+    };
+    ImageView.prototype.personalImage = function () {
+        if (this.username == this.theImage.uploader) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    ImageView.prototype.deleteClicked = function () {
+        this.imageService.removeImage(this.theImage);
+        this.deleteImage.next(this.theImage);
     };
     __decorate([
         core_1.Input(), 
@@ -59,10 +72,15 @@ var ImageView = (function () {
         core_1.Input(), 
         __metadata('design:type', String)
     ], ImageView.prototype, "username", void 0);
+    __decorate([
+        //current user's username
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], ImageView.prototype, "deleteImage", void 0);
     ImageView = __decorate([
         core_1.Component({
             selector: 'image-view',
-            template: "\n\t\t<div class={{getClasses()}}>\n\t\t\t<img src={{theImage.url}} />\n\t\t\t<h5>{{theImage.title}}</h5>\n\t\t\t<div class='infoBox'>\n\t\t\t\t<span class='uploader'>Uploader - {{theImage.uploader}} </span>\n\t\t\t\t<span class='likes'>Favorites - {{theImage.likes.length}} </span>\n\t\t\t</div>\n\t\t\t<div class={{likeBtnClasses()}} (click)=\"likeImage()\" >\n\t\t\t\t<i class=\"fa fa-heart\"></i>\n\t\t\t</div>\n\t\t</div>\n\t\n\t",
+            template: "\n\t\t<div class={{getClasses()}}>\n\t\t\t<img src={{theImage.url}} />\n\t\t\t<h5>{{theImage.title}}</h5>\n\t\t\t<div class='infoBox'>\n\t\t\t\t<span class='uploader'>Uploader - {{theImage.uploader}} </span>\n\t\t\t\t<span class='likes'>Favorites - {{theImage.likes.length}} </span>\n\t\t\t</div>\n\t\t\t<div class={{likeBtnClasses()}} (click)=\"likeImage()\" >\n\t\t\t\t<i class=\"fa fa-heart\"></i>\n\t\t\t</div>\n\t\t\t<div *ngIf=\"personalImage()\" class='topBtn' (click)=\"deleteClicked()\" >\n\t\t\t\tX\n\t\t\t</div>\n\t\t</div>\n\t\n\t",
             styleUrls: ['public/stylesheets/image-view.css']
         }), 
         __metadata('design:paramtypes', [image_service_1.ImageService])

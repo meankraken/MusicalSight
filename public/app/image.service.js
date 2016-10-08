@@ -41,6 +41,9 @@ var ImageService = (function () {
     ImageService.prototype.unlikeImage = function (theImage) {
         return this.http.post('/unlikeImage', JSON.stringify(theImage), { headers: this.headers }).toPromise().then(function (res) { return res.json(); }).catch(this.handleError);
     };
+    ImageService.prototype.removeImage = function (theImage) {
+        return this.http.post('/deleteImage', JSON.stringify(theImage), { headers: this.headers }).toPromise().then(function (res) { return res.json(); }).catch(this.handleError);
+    };
     ImageService.prototype.getUserList = function (userString) {
         return this.http.post('/getUserList', JSON.stringify({ data: userString }), { headers: this.headers }).map(function (res) { return res.json().users; });
     };

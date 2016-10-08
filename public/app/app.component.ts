@@ -61,7 +61,7 @@ export class AppComponent {
 		this.showUploadForm = false;
 		
 	}
-	
+	 
 	addImage(data): void { //call addImage in child RecentComponent
 		this.childView.addImage(data);
 	}
@@ -87,7 +87,7 @@ export class AppComponent {
 	}
 	
 	goToGallery(username:string): void { //go to user's gallery via search 
-		if (username) {
+		if (username) { //if username parameter was passed, user was selected via suggestion box 
 			this.router.navigate(['/user', username]);
 		}
 		else if (!this.matchingUsers.includes(this.searchValue)) { //if no match

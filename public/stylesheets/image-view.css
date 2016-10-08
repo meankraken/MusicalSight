@@ -56,7 +56,7 @@
 	margin-left:15px;
 }
 
-.grid-item .likeBox {
+.grid-item .topBtn {
 	position:absolute;
 	right:3px;
 	top:3px;
@@ -77,6 +77,8 @@
 .hide {
 	display:none;
 }
+
+
 
 
 

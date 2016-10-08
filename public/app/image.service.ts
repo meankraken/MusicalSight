@@ -44,6 +44,10 @@ export class ImageService {
 		return this.http.post('/unlikeImage', JSON.stringify(theImage), {headers: this.headers}).toPromise().then(res => res.json()).catch(this.handleError);
 	}
 	
+	removeImage(theImage: Image): Promise<Image> {
+		return this.http.post('/deleteImage', JSON.stringify(theImage), {headers: this.headers}).toPromise().then(res => res.json()).catch(this.handleError);
+	}
+	
 	getUserList(userString: string): Observable<string[]> { //get the matching user list for user search feature
 		return this.http.post('/getUserList', JSON.stringify({ data: userString }), {headers: this.headers}).map(res => res.json().users);
 	}
