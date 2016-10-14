@@ -84,8 +84,26 @@
 		</div>
 		
 		<div class='app'>
-			<my-app>Loading...</my-app>
+			<my-app>
+				<div class='loading'>
+					Loading
+				</div>
+			</my-app>
 		</div>
+		<script>
+			$(document).ready(function() {
+				var count = 0;
+				var timer = setInterval(function() {
+					var str = $('.loading').html();
+					$('.loading').html(str + '.');
+					count++;
+					if (count==7) {
+						clearInterval(timer);
+					}
+				},1000);
+			});
+			
+		</script>
 		
 	</body>
 

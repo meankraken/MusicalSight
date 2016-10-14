@@ -39,17 +39,42 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy('local', Account.authenticate()));
 passport.use(new TwitterStrategy({
-    consumerKey: process.env.TWTR_KEY,
-    consumerSecret: process.env.TWTR_SECRET,
+    consumerKey: process.env.TWTR_KEY || 'pg8SEyoGan8YKtCfJjEUJVhpC',
+    consumerSecret: process.env.TWTR_SECRET || 'BoweuSRuw0XHCF8GvUNfYuCrK9APTwLffXAo3P1R6OCodrKnlQ',
     callbackURL: "https://musicalsight.herokuapp.com/auth/twitter/callback"
+	
   },
   function(token, tokenSecret, profile, done) {
       return done(null, profile);
     
   }
 ));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+
+/*
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  Account.findOne({_id: id}, function(err, user) {
+    done(err, user);
+  });
+});
+*/
+
+/*
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
+*/
 
 
 app.get('/', function(req,res) {
@@ -76,9 +101,13 @@ app.get('/login', function(req,res) {
 	res.sendFile(__dirname + '/views/register.html');
 });
 
-app.get('/auth/twitter', passport.authenticate('twitter', {session:false})); //for handling login via Twitter
+app.get('/auth/twitter', passport.authenticate('twitter')); //for handling login via Twitter
 
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { session:false, successRedirect: '/', failureRedirect: '/login' })); //Twitter callback url
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }, function(req,res) {
+	if (req.user) {
+		console.log(req.user);
+	}
+})); 
 
 app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/register?failed=true' }));
 

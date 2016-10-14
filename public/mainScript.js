@@ -16,5 +16,6 @@ $(document).ready(function() {
 	$(document).on('mouseleave', '.userBox', function() {
 			$(this).css('background-color','');
 	});
+	
 
 });

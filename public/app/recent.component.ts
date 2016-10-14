@@ -20,11 +20,13 @@ export class RecentComponent implements OnInit {
 	recentImages: Image[] = []; //array for holding recent images 
 	currentUser: string; //username of current user  
 	
+	
 	constructor(private imageService: ImageService) { }
 	
-	ngOnInit(): void { //on init, pull the recent image list using ImageService and the username
+	ngOnInit(): void { //on init, pull the recent image list using ImageService and the username	
 		this.imageService.getRecentImages().then(arr => { this.recentImages = arr.slice(); } );
 		this.imageService.getCurrentUser().then(username => { this.currentUser = username.toString(); });
+		
 	}
 	
 	addImage(toAdd:Image) { //add the uploaded image to the top of the list
