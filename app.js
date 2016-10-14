@@ -103,11 +103,7 @@ app.get('/login', function(req,res) {
 
 app.get('/auth/twitter', passport.authenticate('twitter')); //for handling login via Twitter
 
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }, function(req,res) {
-	if (req.user) {
-		console.log(req.user);
-	}
-})); 
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' })); 
 
 app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/register?failed=true' }));
 
