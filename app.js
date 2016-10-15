@@ -306,6 +306,7 @@ app.post('/unlikeImage', function(req,res) { //handle request to unlike image
 					theImage.save();
 					res.end(JSON.stringify({ data: 'success'}));
 				}
+			});
 		}
 		else {
 			Image.findOne({_id: req.body._id}, function(err,theImage) {
