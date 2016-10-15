@@ -179,7 +179,6 @@ app.get('/getTop', function(req,res) { //handle request to get most liked images
 
 app.get('/getOwn', function(req,res) { //handle request to get user's personal gallery
 	if (req.user) {
-		console.log(req.user);
 		Image.find({uploader:req.user.username},{},{ sort:{ _id: 1 }, limit:20},function(err,images) {
 			if (err) {
 				console.log(err);
@@ -365,20 +364,27 @@ app.post('/deleteImage', function(req,res) { //delete an image
 						
 			}
 			
-			Account.findOne({username: theImage.uploader}, function(err,user) { //find the original uploader
-						for (var i=0; i<user.images.length; i++) {
-											if (user.images[i]._id == theImage._id) {
-												index = i;
-												console.log(i);
-											} 
-										}
-										
-										user.images.splice(index,1);
-										user.save(); //remove the image from uploader's image list 
-										
-										res.end(JSON.stringify(theImage));
-						});
-			});
+			if (req.user.provider) {
+				res.end(JSON.stringify(theImage));
+			}
+			else {
+				Account.findOne({username: theImage.uploader}, function(err,user) { //find the original uploader
+							for (var i=0; i<user.images.length; i++) {
+												if (user.images[i]._id == theImage._id) {
+													index = i;
+													console.log(i);
+												} 
+											}
+											
+											user.images.splice(index,1);
+											user.save(); //remove the image from uploader's image list 
+											
+											res.end(JSON.stringify(theImage));
+				});
+			
+			}
+			
+		});
 		
 		
 	}
