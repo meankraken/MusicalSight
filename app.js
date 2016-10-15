@@ -216,6 +216,7 @@ app.post('/addImage', function(req,res) { //handle post request for uploading ne
 			var obj = {title: req.body.title, url: req.body.url, uploader:req.user.username, likes:[] };
 			var newImage = new Image(obj);
 			newImage.save();
+			res.end(JSON.stringify(obj));
 		}
 		else {
 			Account.findOne({username:req.user.username}, function(err,user) {
