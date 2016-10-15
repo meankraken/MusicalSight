@@ -197,6 +197,7 @@ app.get('/getOwn', function(req,res) { //handle request to get user's personal g
 });
 
 app.get('/getUser/:id', function(req,res) {
+	console.log(req.user);
 	Image.find({uploader:req.params.id},{},{ sort:{ _id: -1 }, limit:20},function(err,images) {
 			if (err) {
 				console.log(err);
