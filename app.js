@@ -213,28 +213,34 @@ app.get('/getUser/:id', function(req,res) {
 
 app.post('/addImage', function(req,res) { //handle post request for uploading new image 
 	if (req.user) {
-		Account.findOne({username:req.user.username}, function(err,user) {
-			if (err) {
-				console.log(err);
-			}
-			else {
-				var obj = {title: req.body.title, url: req.body.url, uploader:req.user.username, likes:[] };
-				var newImage = new Image(obj);
-				newImage.save(function(err, doc) {
-					if (err) {
-						console.log(err);
-					}
-					else {
-						user.images.push(doc);
-						user.save();
-						obj = doc.toJSON();
-						res.end(JSON.stringify(obj));
-					}
-				});
-			}
-		});
+		if (req.user.provider) { //if twitter auth used
+			var obj = {title: req.body.title, url: req.body.url, uploader:req.user.username, likes:[] };
+			var newImage = new Image(obj);
+			newImage.save();
+		}
+		else {
+			Account.findOne({username:req.user.username}, function(err,user) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					var obj = {title: req.body.title, url: req.body.url, uploader:req.user.username, likes:[] };
+					var newImage = new Image(obj);
+					newImage.save(function(err, doc) {
+						if (err) {
+							console.log(err);
+						}
+						else {
+							user.images.push(doc);
+							user.save();
+							obj = doc.toJSON();
+							res.end(JSON.stringify(obj));
+						}
+					});
+				}
+			});
 		
-		
+		}
 	
 	}
 	else {
@@ -246,26 +252,40 @@ app.post('/addImage', function(req,res) { //handle post request for uploading ne
 
 app.post('/likeImage', function(req,res) { //handle like image requests
 	if (req.user) {
-		Image.findOne({_id: req.body._id}, function(err,theImage) {
-			if (err) {
-				console.log(err);
-			}
-			else {
-				theImage.likes.push(req.user.username);
-				theImage.save();
-				
-				Account.findOne({username: req.user.username}, function(err, user) {
-					if (err) {
-						console.log(err);
-					}
-					else {
-						user.likedImages.push(theImage.toJSON()); 
-						user.save();
-						res.end(JSON.stringify({ data: 'success'}));
-					}
-				});
-			}
-		});
+		if (req.user.provider) { //if twitter auth used
+			Image.findOne({_id: req.body._id}, function(err,theImage) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					theImage.likes.push(req.user.username);
+					theImage.save();
+					res.end(JSON.stringify({ data: 'success'}));
+				}
+		}
+		else {
+			Image.findOne({_id: req.body._id}, function(err,theImage) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					theImage.likes.push(req.user.username);
+					theImage.save();
+					
+					Account.findOne({username: req.user.username}, function(err, user) {
+						if (err) {
+							console.log(err);
+						}
+						else {
+							user.likedImages.push(theImage.toJSON()); 
+							user.save();
+							res.end(JSON.stringify({ data: 'success'}));
+						}
+					});
+				}
+			});
+		
+		}
 		
 	}
 	
@@ -273,33 +293,48 @@ app.post('/likeImage', function(req,res) { //handle like image requests
 
 app.post('/unlikeImage', function(req,res) { //handle request to unlike image
 	if (req.user) {
-		Image.findOne({_id: req.body._id}, function(err,theImage) {
-			if (err) {
-				console.log(err);
-			}
-			else {
-				var index = theImage.likes.indexOf(req.user.username);
-				theImage.likes.splice(index,1);
-				theImage.save();
-				
-				Account.findOne({username: req.user.username}, function(err, user) {
-					if (err) {
-						console.log(err);
-					}
-					else {
-						var obj = theImage.toJSON();
-						for (var i=0; i<user.likedImages.length; i++) {
-							if (user.likedImages[i]._id == theImage._id) {
-								index = i;
-							} 
+		if (req.user.provider) { //if twitter auth used
+			Image.findOne({_id: req.body._id}, function(err,theImage) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					var index = theImage.likes.indexOf(req.user.username);
+					theImage.likes.splice(index,1);
+					theImage.save();
+					res.end(JSON.stringify({ data: 'success'}));
+				}
+		}
+		else {
+			Image.findOne({_id: req.body._id}, function(err,theImage) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					var index = theImage.likes.indexOf(req.user.username);
+					theImage.likes.splice(index,1);
+					theImage.save();
+					
+					Account.findOne({username: req.user.username}, function(err, user) {
+						if (err) {
+							console.log(err);
 						}
-						user.likedImages.splice(index,1);
-						user.save();
-						res.end(JSON.stringify({ data: 'success'}));
-					}
-				});
-			}
-		});
+						else {
+							var obj = theImage.toJSON();
+							for (var i=0; i<user.likedImages.length; i++) {
+								if (user.likedImages[i]._id == theImage._id) {
+									index = i;
+								} 
+							}
+							user.likedImages.splice(index,1);
+							user.save();
+							res.end(JSON.stringify({ data: 'success'}));
+						}
+					});
+				}
+			});
+		
+		}
 		
 	}
 });
