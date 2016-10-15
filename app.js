@@ -262,6 +262,7 @@ app.post('/likeImage', function(req,res) { //handle like image requests
 					theImage.save();
 					res.end(JSON.stringify({ data: 'success'}));
 				}
+			}
 		}
 		else {
 			Image.findOne({_id: req.body._id}, function(err,theImage) {
@@ -286,6 +287,7 @@ app.post('/likeImage', function(req,res) { //handle like image requests
 			});
 		
 		}
+		
 		
 	}
 	
