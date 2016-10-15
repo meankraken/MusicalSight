@@ -40,7 +40,7 @@ export class AddImageComponent {
 		else {
 			this.imageService.createImage(this.imageTitle, this.imageUrl).then(data => {
 				if (data.title=='Not logged in!') { alert('You must be logged in.'); }  
-				else { console.log(data); this.addImage.emit(data); this.hideForm.next(); }
+				else { this.addImage.emit(data); this.hideForm.next(); }
 			});
 		}
 	}
